@@ -10,16 +10,8 @@ fun main() {
 
 fun eval(expr: Expr): Optional<Int> = when (expr) {
     is Const -> Optional.of(expr.value)
-    is Div -> {
-        eval(expr.left).flatMap{ left ->
-            val ergRight = eval(expr.right)
-            if (ergRight.isPresent) {
-                left div ergRight.get()
-            } else {
-                Optional.empty()
-            }
-        }
-    }
+    is Div -> eval(expr.left).flatMap{ left -> eval(expr.right).flatMap { right -> left div right }}
+
 }
 
 infix fun Int.div (other : Int) = if(other != 0) Optional.of(this / other) else Optional.empty()
