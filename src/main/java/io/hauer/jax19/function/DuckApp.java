@@ -1,7 +1,7 @@
 package io.hauer.jax19.function;
 
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static io.hauer.jax19.function.Food.*;
 
@@ -11,8 +11,8 @@ public class DuckApp {
 
     public static void main(String[] args) {
 
-        BiFunction<Duck, Food[], Duck> duckDuckFunction = Duck::eatF;
-        DUCKS.stream().map(duck -> duckDuckFunction.apply(duck, FOOD)).forEach(System.out::println);
+        Function<Food[], Function<Duck, Duck>> duckDuckFunction = food -> duck -> duck.eatF(food);
+        DUCKS.stream().map(duckDuckFunction.apply(FOOD)).forEach(System.out::println);
 
     }
 
