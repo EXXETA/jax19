@@ -11,18 +11,13 @@ fun main() {
 fun eval(expr: Expr): Optional<Int> = when (expr) {
     is Const -> Optional.of(expr.value)
     is Div -> {
-        val ergLeft = eval(expr.left)
-        if(ergLeft.isPresent){
+        eval(expr.left).flatMap{ left ->
             val ergRight = eval(expr.right)
-            if(ergRight.isPresent){
-                ergLeft.get() div ergRight.get()
-            }
-            else{
+            if (ergRight.isPresent) {
+                left div ergRight.get()
+            } else {
                 Optional.empty()
             }
-        }
-        else{
-            Optional.empty()
         }
     }
 }
