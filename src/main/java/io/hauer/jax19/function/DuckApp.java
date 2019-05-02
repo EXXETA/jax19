@@ -2,6 +2,7 @@ package io.hauer.jax19.function;
 
 import java.util.List;
 
+import static io.hauer.jax19.function.Duck.eat;
 import static io.hauer.jax19.function.Food.*;
 
 public class DuckApp {
@@ -16,23 +17,30 @@ public class DuckApp {
 
         System.out.println("\nFunktional:");
 
-        DUCKS.stream()
-            .map(duck -> new Duck(duck.name, new Stomach(duck.stomach.getContent(), Apple, Oat)))
-            .forEach(System.out::println);
-
-        System.out.println("\nProzedual:");
 
         for (Duck duck : DUCKS) {
-            duck.stomach.addFood(Apple, Oat);
+            eat(duck.stomach, Apple, Oat);
             System.out.println(duck);
         }
 
-        System.out.println("\nObjekt-Orientiert");
 
         for (Duck duck : DUCKS) {
             duck.eat(Apple, Oat);
             System.out.println(duck);
         }
+
+
+        DUCKS.parallelStream()
+            .map(duck ->
+                new Duck(duck.name,
+                    new Stomach(duck.stomach.getContent(), Apple, Oat)))
+            .forEach(System.out::println);
+
+
+        DUCKS.stream()
+            .map(duck -> duck.eatF(Apple, Oat))
+            .forEach(System.out::println);
+
     }
 
 }

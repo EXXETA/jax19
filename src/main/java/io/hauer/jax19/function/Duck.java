@@ -24,5 +24,9 @@ public class Duck {
     @Override public String toString() {
         return "Duck{" + "name='" + name + '\'' + ", stomach=" + stomach + '}';
     }
+
+    static void eat(Stomach stomach, Food... food){
+        stomach.addFood(food);
+    }
 }
 
