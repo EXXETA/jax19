@@ -1,5 +1,7 @@
 package io.hauer.jax19.function;
 
+import io.vavr.control.Try;
+
 public class Duck {
     final String name;
     final Stomach stomach;
@@ -17,8 +19,8 @@ public class Duck {
         stomach.addFood(food);
     }
 
-    Duck eatF(Food... food) {
-        return new Duck(name, new Stomach(stomach.getContent(), food));
+    Try<Duck> eatF(Food... food) {
+        return Try.of(() -> new Duck(name, new Stomach(stomach.getContent(), food)));
     }
 
     @Override public String toString() {
